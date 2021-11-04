@@ -46,6 +46,7 @@
                 <th>Model</th>
                 <th>Vendor Name</th>
                 <th>Vendor Site</th>
+                <th>Choose Action</th>
             </tr>
             </thead>
             <tbody>
