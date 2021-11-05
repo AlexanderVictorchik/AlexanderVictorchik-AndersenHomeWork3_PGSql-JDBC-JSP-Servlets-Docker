@@ -31,6 +31,11 @@ public class PhoneDAOImp implements PhoneDAO {
     private static final String UPDATE_PHONES_SQL =
             "update phone set price = ?, model = ? where phone_id = ? returning vendor_id";
 
+    Connection con = PsqlConnection.getConnection();
+    public void startConnection(Connection con) {
+        this.con = con;
+    }
+
     public boolean insert(Phone phone) throws SQLException, ClassNotFoundException {
         boolean rowInsert;
         System.out.println(INSERT_VENDORS_SQL);
@@ -49,7 +54,6 @@ public class PhoneDAOImp implements PhoneDAO {
             pstatement2.setString(2, phone.getModel());
             pstatement2.setInt(3, vendor_id);
             rowInsert = pstatement2.executeUpdate() > 0;
-
             return rowInsert;
         }
     }

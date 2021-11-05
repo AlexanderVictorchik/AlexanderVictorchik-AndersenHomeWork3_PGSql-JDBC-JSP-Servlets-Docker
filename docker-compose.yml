@@ -10,11 +10,9 @@ services:
       retries: 10
     restart: always
     environment:
-      - APP_DB_NAME=docker
       - POSTGRES_USER=test
       - POSTGRES_PASSWORD=phonetest
-      - APP_DB_USER=docker
-      - APP_DB_PASS=docker
+      - APP_DB_NAME=docker
     volumes:
       - ./db:/docker-entrypoint-initdb.d/
     ports:
