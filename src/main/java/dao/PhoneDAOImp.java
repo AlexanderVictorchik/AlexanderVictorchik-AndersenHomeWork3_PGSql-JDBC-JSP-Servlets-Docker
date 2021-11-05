@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class PhoneDAOImp implements PhoneDAO {
 
@@ -31,7 +31,8 @@ public class PhoneDAOImp implements PhoneDAO {
     private static final String UPDATE_PHONES_SQL =
             "update phone set price = ?, model = ? where phone_id = ? returning vendor_id";
 
-    public void insert(Phone phone) throws SQLException {
+    public boolean insert(Phone phone) throws SQLException, ClassNotFoundException {
+        boolean rowInsert;
         System.out.println(INSERT_VENDORS_SQL);
         System.out.println(INSERT_PHONES_SQL);
         try (Connection connection = PsqlConnection.getConnection();
@@ -47,17 +48,17 @@ public class PhoneDAOImp implements PhoneDAO {
             pstatement2.setInt(1, phone.getPrice());
             pstatement2.setString(2, phone.getModel());
             pstatement2.setInt(3, vendor_id);
-            pstatement2.executeUpdate();
-        } catch (SQLException e) {
-            printSQLException(e);
+            rowInsert = pstatement2.executeUpdate() > 0;
+
+            return rowInsert;
         }
     }
 
-    public Phone select(int id) {
+    public Optional<Phone> select(String id) {
         Phone phone = null;
         try (Connection connection = PsqlConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_PHONE_BY_ID);) {
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(1, Integer.parseInt(id));
             System.out.println(preparedStatement);
             ResultSet rs = preparedStatement.executeQuery();
 
@@ -72,7 +73,7 @@ public class PhoneDAOImp implements PhoneDAO {
         } catch (SQLException e) {
             printSQLException(e);
         }
-        return phone;
+        return Optional.of(phone);
     }
 
 
@@ -97,11 +98,11 @@ public class PhoneDAOImp implements PhoneDAO {
         return phones;
     }
 
-    public boolean delete(int id) throws SQLException {
+    public boolean delete(Phone phone) throws SQLException {
         boolean rowDeleted;
         try (Connection connection = PsqlConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(DELETE_PHONES_SQL);) {
-            statement.setInt(1, id);
+            statement.setInt(1, phone.getId());
             rowDeleted = statement.executeUpdate() > 0;
         }
         return rowDeleted;

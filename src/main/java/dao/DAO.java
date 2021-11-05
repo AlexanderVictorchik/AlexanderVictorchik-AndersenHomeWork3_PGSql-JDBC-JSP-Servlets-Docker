@@ -2,6 +2,7 @@ package dao;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Parent access interface
@@ -12,13 +13,13 @@ public interface DAO<T, ID> {
     /**
      * List of methods for CRUD actions
      */
-    T select(int ID) throws SQLException, ClassNotFoundException;
+    Optional<T> select(ID id) throws SQLException, ClassNotFoundException;
 
     List<T> selectAll() throws SQLException, ClassNotFoundException;
 
-    void insert(T o) throws SQLException, ClassNotFoundException;
+    boolean insert(T o) throws SQLException, ClassNotFoundException;
 
     boolean update(T o) throws SQLException, ClassNotFoundException;
 
-    boolean delete(int ID) throws SQLException, ClassNotFoundException;
+    boolean delete(T o) throws SQLException, ClassNotFoundException;
 }

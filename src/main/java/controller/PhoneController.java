@@ -25,32 +25,27 @@ public class PhoneController extends HttpServlet {
         doGet(request, response);
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response){
         String action = request.getServletPath();
-        try {
-            switch (action) {
-                case "/new":
-                    IMPL_S.showNewForm(request, response);
-                    break;
-                case "/insert":
-                    IMPL_S.insertPhone(request, response);
-                    break;
-                case "/delete":
-                    IMPL_S.deletePhone(request, response);
-                    break;
-                case "/edit":
-                    IMPL_S.showEditForm(request, response);
-                    break;
-                case "/update":
-                    IMPL_S.updatePhone(request, response);
-                    break;
-                default:
-                    IMPL_S.listPhone(request, response);
-                    break;
-            }
-        } catch (SQLException ex) {
-            throw new ServletException(ex);
+        switch (action) {
+            case "/new":
+                IMPL_S.showNewForm(request, response);
+                break;
+            case "/insert":
+                IMPL_S.insertPhone(request, response);
+                break;
+            case "/delete":
+                IMPL_S.deletePhone(request, response);
+                break;
+            case "/edit":
+                IMPL_S.showEditForm(request, response);
+                break;
+            case "/update":
+                IMPL_S.updatePhone(request, response);
+                break;
+            default:
+                IMPL_S.listPhone(request, response);
+                break;
         }
     }
 }
