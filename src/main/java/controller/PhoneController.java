@@ -20,11 +20,11 @@ public class PhoneController extends HttpServlet {
         IMPL_S = phoneService;
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         doGet(request, response);
     }
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response){
         String action = request.getServletPath();
         switch (action) {
