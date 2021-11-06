@@ -19,20 +19,20 @@ public class PhoneDAOImp implements PhoneDAO {
 
     private static final String SELECT_PHONE_BY_ID =
             "select phone_id,price,model,name,site from phone " +
-                    "join vendor ON vendor.id=phone.vendor_id where phone.phone_id=?";
+                    "join vendor ON vendor.id = phone.vendor_id where phone.phone_id = ?";
 
     private static final String SELECT_ALL_PHONES =
-            "select phone_id,price,model,name,site from phone join vendor on vendor.id=phone.vendor_id";
+            "select phone_id,price,model,name,site from phone join vendor on vendor.id = phone.vendor_id";
 
-    private static final String DELETE_PHONES_SQL = "delete from phone where phone_id = ?;";
+    private static final String DELETE_PHONES_SQL = "delete from phone where phone_id = ?";
 
     private static final String UPDATE_VENDORS_SQL =
-            "update vendor set name = ? ,site = ? where id= ?";
+            "update vendor set name = ? ,site = ? where id = ?";
     private static final String UPDATE_PHONES_SQL =
             "update phone set price = ?, model = ? where phone_id = ? returning vendor_id";
 
     Connection con = PsqlConnection.getConnection();
-    public void startConnection(Connection con) {
+    void startConnection(Connection con) {
         this.con = con;
     }
 
@@ -108,8 +108,8 @@ public class PhoneDAOImp implements PhoneDAO {
              PreparedStatement statement = connection.prepareStatement(DELETE_PHONES_SQL);) {
             statement.setInt(1, phone.getId());
             rowDeleted = statement.executeUpdate() > 0;
+            return rowDeleted;
         }
-        return rowDeleted;
     }
 
     public boolean update(Phone phone) throws SQLException {
